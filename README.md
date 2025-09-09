@@ -11,6 +11,15 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 - Fully responsive design
 - Built with Next.js 13+ (App Router)
 
+## Tech Stack
+
+- **Framework:** Next.js 13+ (App Router)  
+- **Language:** TypeScript  
+- **UI Library:** Acernity UI  
+- **State Management:** React Context / NextAuth / Custom Authentication  
+- **Styling:** Tailwind CSS / SCSS / CSS Modules  
+- **Version Control:** Git & GitHub  
+
 ## Getting Started
 
 Clone the repository and run the development server:
