@@ -1,0 +1,104 @@
+{
+  "courses": [
+    {
+      "id": 1,
+      "title": "React.js Fundamentals",
+      "slug": "react-fundamentals",
+      "description": "Learn the core concepts of React including components, props, state, and hooks.",
+      "price": 99.99,
+      "instructor": "John Anderson",
+      "isFeatured": true,
+      "image": "/courses/react.jpg"
+    },
+    {
+      "id": 2,
+      "title": "Next.js Mastery",
+      "slug": "nextjs-mastery",
+      "description": "Master Next.js with routing, API routes, authentication, and server-side rendering.",
+      "price": 129.99,
+      "instructor": "Sarah Lee",
+      "isFeatured": true,
+      "image": "/courses/nextjs.jpg"
+    },
+    {
+      "id": 3,
+      "title": "TypeScript for Developers",
+      "slug": "typescript-for-developers",
+      "description": "Level up your JavaScript skills by learning TypeScript step by step.",
+      "price": 109.99,
+      "instructor": "Michael Green",
+      "isFeatured": false,
+      "image": "/courses/typescript.jpg"
+    },
+    {
+      "id": 4,
+      "title": "Node.js & Express Bootcamp",
+      "slug": "node-express-bootcamp",
+      "description": "Build scalable backend applications using Node.js, Express, and REST APIs.",
+      "price": 119.99,
+      "instructor": "Emily Davis",
+      "isFeatured": true,
+      "image": "/courses/node.jpg"
+    },
+    {
+      "id": 5,
+      "title": "Fullstack Development with MERN",
+      "slug": "mern-fullstack",
+      "description": "Become a fullstack developer by building projects using MongoDB, Express, React, and Node.",
+      "price": 149.99,
+      "instructor": "Chris Brown",
+      "isFeatured": false,
+      "image": "/courses/mern.jpg"
+    },
+    {
+      "id": 6,
+      "title": "Tailwind CSS Essentials",
+      "slug": "tailwind-css-essentials",
+      "description": "Learn how to build modern, responsive UI designs faster with Tailwind CSS.",
+      "price": 89.99,
+      "instructor": "Sophia White",
+      "isFeatured": false,
+      "image": "/courses/tailwind.jpg"
+    },
+    {
+      "id": 7,
+      "title": "Git & GitHub Mastery",
+      "slug": "git-github-mastery",
+      "description": "Master version control, branching, merging, and collaboration with GitHub.",
+      "price": 79.99,
+      "instructor": "David Carter",
+      "isFeatured": true,
+      "image": "/courses/git.jpg"
+    },
+    {
+      "id": 8,
+      "title": "Docker & DevOps Basics",
+      "slug": "docker-devops-basics",
+      "description": "Understand containerization, Docker commands, and deployment pipelines.",
+      "price": 139.99,
+      "instructor": "Rachel Johnson",
+      "isFeatured": true,
+      "image": "/courses/docker.jpg"
+    },
+    {
+      "id": 9,
+      "title": "GraphQL with Apollo",
+      "slug": "graphql-apollo",
+      "description": "Learn GraphQL fundamentals and how to integrate it with React using Apollo Client.",
+      "price": 119.99,
+      "instructor": "Mark Wilson",
+      "isFeatured": false,
+      "image": "/courses/graphql.jpg"
+    },
+    {
+      "id": 10,
+      "title": "AWS Cloud Essentials",
+      "slug": "aws-cloud-essentials",
+      "description": "Get started with AWS services like EC2, S3, and Lambda for cloud-based applications.",
+      "price": 159.99,
+      "instructor": "Olivia Martinez",
+      "isFeatured": true,
+      "image": "/courses/aws.jpg"
+    }
+  ]
+}
