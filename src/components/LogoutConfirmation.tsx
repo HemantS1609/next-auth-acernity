@@ -7,7 +7,7 @@ import {
   useModal,
 } from "@/components/ui/animated-modal";
 import { UserContext } from "@/context/UserContext";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { useContext } from "react";
 import toast from "react-hot-toast";
@@ -25,9 +25,17 @@ export default function LogoutConfirmation() {
       router.push("/login");
       localStorage.removeItem("userData");
       setUser(null);
-    } catch (error: any) {
-      console.log(error.message);
-      toast.error(error.message);
+    } catch (err: unknown) {
+      if (err instanceof AxiosError) {
+        toast.error(err.response?.data?.error || "Logout failed");
+        console.log(err.response?.data);
+      } else if (err instanceof Error) {
+        toast.error(err.message);
+        console.log(err.message);
+      } else {
+        toast.error("An unexpected error occurred");
+        console.log(err);
+      }
     }
   };
 

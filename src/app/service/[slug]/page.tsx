@@ -80,6 +80,14 @@ const page = () => {
   const slug = params?.slug as keyof typeof servicesData;
   const service = servicesData[slug];
 
+  if (!service) {
+    return (
+      <div className="flex items-center justify-center min-h-screen text-white">
+        Service not found.
+      </div>
+    );
+  }
+
   return (
     <div className="h-[40rem] w-full rounded-md bg-neutral-950 relative flex flex-col items-center justify-center antialiased mt-30">
       <div className=" mx-auto p-4">

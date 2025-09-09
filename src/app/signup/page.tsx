@@ -41,8 +41,12 @@ export default function SignupFormDemo() {
         toast.success(response?.data?.message);
         router.push("/login");
       }
-    } catch (error: any) {
-      toast.error(error?.message || "Failed to signup. Please try again.");
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error("Failed to signup. Please try again.");
+      }
     } finally {
       setLoading(false);
     }

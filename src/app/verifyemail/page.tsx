@@ -13,30 +13,33 @@ export default function VerifyEmailPage() {
   const [verified, setVerified] = useState(false);
   const [error, setError] = useState(false);
 
-  const verifyUserEmail = async () => {
-    try {
-      setLoading(true);
-      const res = await axios.post("/api/users/verifyemail", { token });
-      if (res.status === 200) {
-        setVerified(true);
-        toast.success("Email verified successfully 🎉");
-      }
-    } catch (err: any) {
-      setError(true);
-      toast.error(err?.response?.data?.error || "Verification failed");
-      console.log(err?.response?.data);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
     const urlToken = window.location.search.split("=")[1];
     setToken(urlToken || "");
   }, []);
 
   useEffect(() => {
-    if (token.length > 0) {
+    const verifyUserEmail = async () => {
+      try {
+        setLoading(true);
+        const res = await axios.post("/api/users/verifyemail", { token });
+        if (res.status === 200) {
+          setVerified(true);
+          toast.success("Email verified successfully 🎉");
+        }
+      } catch (err: unknown) {
+        setError(true);
+        if (axios.isAxiosError(err)) {
+          toast.error(err.response?.data?.error || "Verification failed");
+        } else {
+          toast.error("Verification failed");
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (token) {
       verifyUserEmail();
     }
   }, [token]);

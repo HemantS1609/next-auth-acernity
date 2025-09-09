@@ -43,8 +43,12 @@ export default function SigninFormDemo() {
       } else {
         toast.error(response.data.error);
       }
-    } catch (error: any) {
-      toast.error(error?.message || "Failed to signin. Please try again.");
+    } catch (error: unknown) {
+      const message =
+        error instanceof Error
+          ? error.message
+          : "Failed to signin. Please try again.";
+      toast.error(message);
     } finally {
       setLoading(false);
     }
@@ -148,7 +152,7 @@ export default function SigninFormDemo() {
                   )}
                 </button>
                 <p className="mt-4 text-center text-sm text-neutral-500 dark:text-neutral-400">
-                  Don't have account?
+                  Don&apos;t have an account?
                   <Link
                     href="/signup"
                     className="text-blue-500 hover:underline dark:text-blue-400"

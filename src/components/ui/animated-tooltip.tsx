@@ -8,6 +8,7 @@ import {
   useMotionValue,
   useSpring,
 } from "motion/react";
+import Image from "next/image";
 
 export const AnimatedTooltip = ({
   items,
@@ -33,13 +34,24 @@ export const AnimatedTooltip = ({
     springConfig
   );
 
-  const handleMouseMove = (event: any) => {
+  // const handleMouseMove = (event: any) => {
+  //   if (animationFrameRef.current) {
+  //     cancelAnimationFrame(animationFrameRef.current);
+  //   }
+
+  //   animationFrameRef.current = requestAnimationFrame(() => {
+  //     const halfWidth = event.target.offsetWidth / 2;
+  //     x.set(event.nativeEvent.offsetX - halfWidth);
+  //   });
+  // };
+
+  const handleMouseMove = (event: React.MouseEvent<HTMLImageElement>) => {
     if (animationFrameRef.current) {
       cancelAnimationFrame(animationFrameRef.current);
     }
 
     animationFrameRef.current = requestAnimationFrame(() => {
-      const halfWidth = event.target.offsetWidth / 2;
+      const halfWidth = event.currentTarget.offsetWidth / 2;
       x.set(event.nativeEvent.offsetX - halfWidth);
     });
   };
@@ -84,14 +96,22 @@ export const AnimatedTooltip = ({
               </motion.div>
             )}
           </AnimatePresence>
-          <img
+          <Image
+            onMouseMove={handleMouseMove}
+            src={item.image}
+            alt={item.name}
+            height={56} // 14 * 4 (Tailwind h-14)
+            width={56} // 14 * 4
+            className="relative !m-0 rounded-full border-2 border-white object-cover object-top transition duration-500 group-hover:z-30 group-hover:scale-105"
+          />
+          {/* <img
             onMouseMove={handleMouseMove}
             height={100}
             width={100}
             src={item.image}
             alt={item.name}
             className="relative !m-0 h-14 w-14 rounded-full border-2 border-white object-cover object-top !p-0 transition duration-500 group-hover:z-30 group-hover:scale-105"
-          />
+          /> */}
         </div>
       ))}
     </>

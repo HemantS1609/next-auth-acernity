@@ -50,8 +50,14 @@ export default function ResetPasswordPage() {
       } else {
         toast.error(res.data.error || "Failed to reset password");
       }
-    } catch (err: any) {
-      toast.error(err?.response?.data?.error || "Something went wrong!");
+    } catch (err: unknown) {
+      if (axios.isAxiosError(err)) {
+        toast.error(err.response?.data?.error || "Something went wrong!");
+      } else if (err instanceof Error) {
+        toast.error(err.message);
+      } else {
+        toast.error("Something went wrong!");
+      }
     } finally {
       setLoading(false);
     }

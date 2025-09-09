@@ -1,13 +1,18 @@
 "use client";
 import { useEffect, useState } from "react";
 
+interface UserType {
+  firstname: string;
+  lastname: string;
+  email: string;
+}
 export default function profilePage() {
-  const [storedUser, setStoredUser] = useState<any>(null);
+  const [storedUser, setStoredUser] = useState<UserType | null>(null);
 
   useEffect(() => {
     const userData = localStorage.getItem("userData");
     if (userData) {
-      setStoredUser(JSON.parse(userData));
+      setStoredUser(JSON.parse(userData) as UserType);
     }
   }, []);
 

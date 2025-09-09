@@ -14,7 +14,7 @@ export const sendEmail = async ({
   email,
   emailType,
   userId,
-}: SendEmailProps) => {
+}: SendEmailProps): Promise<{ success: boolean }> => {
   try {
     //Create hash token
     const hashedToken = await bcryptjs.hash(userId.toString(), 10);
@@ -56,8 +56,11 @@ export const sendEmail = async ({
     });
 
     return { success: true };
-  } catch (error: any) {
-    throw new Error(error.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    }
+    throw new Error("Unexpected error while sending email");
   }
 };
 // Mailtrap API integration

@@ -1,4 +1,10 @@
-export default function profileDetailPage({ params }: any) {
+interface ProfileDetailPageProps {
+  params: {
+    id: string; // adjust type if id can be number
+  };
+}
+
+export default function profileDetailPage({ params }: ProfileDetailPageProps) {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2">
       <h1>Profile Detail</h1>
