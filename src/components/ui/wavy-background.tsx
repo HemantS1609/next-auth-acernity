@@ -1,6 +1,12 @@
 "use client";
 import { cn } from "@/utils/cn";
-import React, { useEffect, useRef, useState, useCallback } from "react";
+import React, {
+  useEffect,
+  useRef,
+  useState,
+  useCallback,
+  useMemo,
+} from "react";
 import { createNoise3D } from "simplex-noise";
 
 export const WavyBackground = ({
@@ -30,73 +36,91 @@ export const WavyBackground = ({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationIdRef = useRef<number | null>(null);
 
-  let w: number, h: number, nt: number, i: number, x: number;
-  let ctx: CanvasRenderingContext2D | null;
-  let canvas: HTMLCanvasElement | null;
+  // store mutable drawing values in refs
+  const ctxRef = useRef<CanvasRenderingContext2D | null>(null);
+  const wRef = useRef<number>(0);
+  const hRef = useRef<number>(0);
+  const ntRef = useRef<number>(0);
 
-  const getSpeed = () => (speed === "fast" ? 0.002 : 0.001);
+  // const getSpeed = () => (speed === "fast" ? 0.002 : 0.001);
 
-  const waveColors = colors ?? [
-    "#38bdf8",
-    "#818cf8",
-    "#c084fc",
-    "#e879f9",
-    "#22d3ee",
-  ];
+  const waveColors = useMemo(
+    () => colors ?? ["#38bdf8", "#818cf8", "#c084fc", "#e879f9", "#22d3ee"],
+    [colors]
+  );
 
-  const drawWave = (n: number) => {
-    if (!ctx) return;
-    nt += getSpeed();
-    for (i = 0; i < n; i++) {
-      ctx.beginPath();
-      ctx.lineWidth = waveWidth || 50;
-      ctx.strokeStyle = waveColors[i % waveColors.length];
-      for (x = 0; x < w; x += 5) {
-        let y = noise(x / 800, 0.3 * i, nt) * 100;
-        ctx.lineTo(x, y + h * 0.5);
+  const drawWave = useCallback(
+    (n: number) => {
+      const ctx = ctxRef.current;
+      const w = wRef.current;
+      const h = hRef.current;
+
+      if (!ctx) return;
+      ntRef.current += speed === "fast" ? 0.002 : 0.001;
+
+      for (let i = 0; i < n; i++) {
+        ctx.beginPath();
+        ctx.lineWidth = waveWidth || 50;
+        ctx.strokeStyle = waveColors[i % waveColors.length];
+        for (let x = 0; x < w; x += 5) {
+          const y = noise(x / 800, 0.3 * i, ntRef.current) * 100;
+          ctx.lineTo(x, y + h * 0.5);
+        }
+        ctx.stroke();
+        ctx.closePath();
       }
-      ctx.stroke();
-      ctx.closePath();
-    }
-  };
+    },
+    [noise, waveColors, waveWidth, speed]
+  );
 
   const render = useCallback(() => {
+    const ctx = ctxRef.current;
+    const w = wRef.current;
+    const h = hRef.current;
+
     if (!ctx) return;
     ctx.fillStyle = backgroundFill || "black";
     ctx.globalAlpha = waveOpacity || 0.5;
     ctx.fillRect(0, 0, w, h);
+
     drawWave(5);
     animationIdRef.current = requestAnimationFrame(render);
-  }, [backgroundFill, waveOpacity]);
+  }, [backgroundFill, waveOpacity, drawWave]);
 
   const init = useCallback(() => {
-    canvas = canvasRef.current;
+    const canvas = canvasRef.current;
     if (!canvas) return;
 
-    ctx = canvas.getContext("2d");
+    const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    w = ctx.canvas.width = window.innerWidth;
-    h = ctx.canvas.height = window.innerHeight;
+    ctxRef.current = ctx;
+    wRef.current = ctx.canvas.width = window.innerWidth;
+    hRef.current = ctx.canvas.height = window.innerHeight;
     ctx.filter = `blur(${blur}px)`;
-    nt = 0;
+    ntRef.current = 0;
 
-    window.onresize = () => {
-      if (!ctx) return;
-      w = ctx.canvas.width = window.innerWidth;
-      h = ctx.canvas.height = window.innerHeight;
-      ctx.filter = `blur(${blur}px)`;
+    const handleResize = () => {
+      if (!ctxRef.current) return;
+      wRef.current = ctxRef.current.canvas.width = window.innerWidth;
+      hRef.current = ctxRef.current.canvas.height = window.innerHeight;
+      ctxRef.current.filter = `blur(${blur}px)`;
     };
 
+    window.addEventListener("resize", handleResize);
+
     render();
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
   }, [blur, render]);
 
   useEffect(() => {
-    init();
+    const cleanup = init();
     return () => {
-      if (animationIdRef.current) {
-        cancelAnimationFrame(animationIdRef.current);
-      }
+      if (animationIdRef.current) cancelAnimationFrame(animationIdRef.current);
+      if (cleanup) cleanup();
     };
   }, [init]);
 

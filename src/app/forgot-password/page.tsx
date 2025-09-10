@@ -34,8 +34,12 @@ export default function ForgotPasswordPage() {
       } else {
         toast.error(res.data.error || "Failed to send reset link");
       }
-    } catch (err: any) {
-      toast.error(err?.response?.data?.error || "Something went wrong!");
+    } catch (error: unknown) {
+      const message =
+        error instanceof Error
+          ? error.message
+          : "Failed to signin. Please try again.";
+      toast.error(message);
     } finally {
       setLoading(false);
     }

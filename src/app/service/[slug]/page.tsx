@@ -75,7 +75,7 @@ const servicesData = {
   },
 };
 
-const page = () => {
+const Page = () => {
   const params = useParams();
   const slug = params?.slug as keyof typeof servicesData;
   const service = servicesData[slug];
@@ -106,4 +106,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

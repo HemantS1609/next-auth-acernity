@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   motion,
   useTransform,
@@ -51,10 +51,20 @@ export const AnimatedTooltip = ({
     }
 
     animationFrameRef.current = requestAnimationFrame(() => {
-      const halfWidth = event.currentTarget.offsetWidth / 2;
+      const target = event.currentTarget;
+      if (!target) return;
+      const halfWidth = target.offsetWidth / 2;
       x.set(event.nativeEvent.offsetX - halfWidth);
     });
   };
+
+  useEffect(() => {
+    return () => {
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+    };
+  }, []);
 
   return (
     <>
@@ -96,14 +106,18 @@ export const AnimatedTooltip = ({
               </motion.div>
             )}
           </AnimatePresence>
-          <Image
+          <div
             onMouseMove={handleMouseMove}
-            src={item.image}
-            alt={item.name}
-            height={56} // 14 * 4 (Tailwind h-14)
-            width={56} // 14 * 4
-            className="relative !m-0 rounded-full border-2 border-white object-cover object-top transition duration-500 group-hover:z-30 group-hover:scale-105"
-          />
+            className="relative h-14 w-14 rounded-full border-2 border-white overflow-hidden group-hover:z-30 group-hover:scale-105 transition duration-500"
+          >
+            <Image
+              src={item.image}
+              alt={item.name}
+              unoptimized
+              fill
+              className="object-cover object-top"
+            />
+          </div>
           {/* <img
             onMouseMove={handleMouseMove}
             height={100}

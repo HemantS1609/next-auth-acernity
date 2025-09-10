@@ -6,7 +6,7 @@ interface UserType {
   lastname: string;
   email: string;
 }
-export default function profilePage() {
+export default function ProfilePage() {
   const [storedUser, setStoredUser] = useState<UserType | null>(null);
 
   useEffect(() => {
