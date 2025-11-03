@@ -44,4 +44,22 @@ Built responsive layouts using Tailwind utility classes.
 Designed a modern UI using Acernity’s prebuilt components.
 Followed clean code architecture for scalability and maintenance.
 
+## Getting Started
+
+Clone the repository and run the development server:
+
+```bash
+npm install
+npm run dev
+# or
+yarn install
+yarn dev
+# or
+pnpm install
+pnpm dev
+# or
+bun install
+bun dev
+```
+
 
